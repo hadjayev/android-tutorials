@@ -25,6 +25,7 @@ class CartListViewModel @Inject constructor(
 ) : BaseViewModel(), CartAdapterListener {
 
     private val selectionModeFlow = MutableStateFlow<SelectionMode>(SelectionMode.Disabled)
+
     val stateLiveValue = combine(
         selectionModeFlow,
         getCartUseCase.getCart(),

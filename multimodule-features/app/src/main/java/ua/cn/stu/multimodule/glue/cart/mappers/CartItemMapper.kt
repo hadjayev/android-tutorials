@@ -14,8 +14,11 @@ class CartItemMapper @Inject constructor(
 ) {
 
     suspend fun toCartItem(dataEntity: CartItemDataEntity): CartItem {
+
         val productDataEntity = productsDataRepository.getProductById(dataEntity.id)
+
         val productPriceWithDiscount = productsDataRepository.getDiscountPriceUsdCentsForEntity(productDataEntity)
+
         val product = Product(
             id = productDataEntity.id,
             name = productDataEntity.name,
@@ -23,6 +26,7 @@ class CartItemMapper @Inject constructor(
             photo = productDataEntity.imageUrl,
             totalQuantity = productDataEntity.quantityAvailable
         )
+
         val discountPerItem = productDataEntity.priceUsdCents - (productPriceWithDiscount ?: productDataEntity.priceUsdCents)
         return CartItem(
             id = dataEntity.id,

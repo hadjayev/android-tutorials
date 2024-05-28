@@ -16,7 +16,6 @@ import ua.cn.stu.multimodule.core.impl.ActivityRequired
 import ua.cn.stu.multimodule.core.impl.DefaultCoreProvider
 import javax.inject.Singleton
 
-
 @Module
 @InstallIn(SingletonComponent::class)
 class CoreProviderModule {

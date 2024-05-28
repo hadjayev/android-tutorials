@@ -2,7 +2,10 @@ package ua.cn.stu.tabs.model.accounts
 
 import android.database.sqlite.SQLiteConstraintException
 import android.database.sqlite.SQLiteDatabase
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.core.content.contentValuesOf
+import androidx.core.database.sqlite.transaction
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 import ua.cn.stu.tabs.model.AccountAlreadyExistsException
@@ -75,7 +78,9 @@ class SQLiteAccountsRepository(
         return@wrapSQLiteException
     }
 
+    @RequiresApi(Build.VERSION_CODES.JELLY_BEAN)
     private fun findAccountIdByEmailAndPassword(email: String, password: String): Long {
+
         val cursor = db.query(
             AccountsTable.TABLE_NAME,
             arrayOf(AccountsTable.COLUMN_ID, AccountsTable.COLUMN_PASSWORD),
@@ -83,6 +88,7 @@ class SQLiteAccountsRepository(
             arrayOf(email),
             null, null, null
         )
+
         return cursor.use {
             if (cursor.count == 0) throw AuthException()
             cursor.moveToFirst()
@@ -135,6 +141,10 @@ class SQLiteAccountsRepository(
     }
 
     private fun updateUsernameForAccountId(accountId: Long, newUsername: String) {
+
+        db.transaction {
+
+        }
         db.update(
             AccountsTable.TABLE_NAME,
             contentValuesOf(
@@ -146,5 +156,4 @@ class SQLiteAccountsRepository(
     }
 
     private class AccountId(val value: Long)
-
 }

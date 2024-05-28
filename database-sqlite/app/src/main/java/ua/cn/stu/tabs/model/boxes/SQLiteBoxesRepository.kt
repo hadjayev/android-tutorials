@@ -3,6 +3,8 @@ package ua.cn.stu.tabs.model.boxes
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.graphics.Color
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.core.content.contentValuesOf
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.*
@@ -63,6 +65,7 @@ class SQLiteBoxesRepository(
         )
     }
 
+    @RequiresApi(Build.VERSION_CODES.FROYO)
     private fun saveActiveFlag(accountId: Long, boxId: Long, isActive: Boolean) {
         db.insertWithOnConflict(
             AccountsBoxesSettingsTable.TABLE_NAME,
